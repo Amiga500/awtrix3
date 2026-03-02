@@ -495,18 +495,18 @@ void MQTTManager_::sendStats()
     {
         char buffer[8];
 #ifndef awtrix2_upgrade
-        snprintf(buffer, 5, "%d", BATTERY_PERCENT);
+        snprintf(buffer, sizeof(buffer), "%d", BATTERY_PERCENT);
         battery->setValue(buffer);
 #endif
         if (SENSOR_READING)
         {
             snprintf(buffer, sizeof(buffer), "%.*f", TEMP_DECIMAL_PLACES, CURRENT_TEMP);
             temperature->setValue(buffer);
-            snprintf(buffer, 5, "%.0f", CURRENT_HUM);
+            snprintf(buffer, sizeof(buffer), "%.0f", CURRENT_HUM);
             humidity->setValue(buffer);
         }
 
-        snprintf(buffer, 5, "%.0f", CURRENT_LUX);
+        snprintf(buffer, sizeof(buffer), "%.0f", CURRENT_LUX);
         illuminance->setValue(buffer);
         BriMode->setState(AUTO_BRIGHTNESS, false);
         Matrix->setBrightness(BRIGHTNESS);
@@ -518,7 +518,7 @@ void MQTTManager_::sendStats()
         color.blue = TEXTCOLOR_888 & 0xFF;
         Matrix->setRGBColor(color);
         int8_t rssiValue = WiFi.RSSI();
-        char rssiString[4];
+        char rssiString[8];
         snprintf(rssiString, sizeof(rssiString), "%d", rssiValue);
         strength->setValue(rssiString);
 
@@ -527,7 +527,7 @@ void MQTTManager_::sendStats()
         itoa(freeHeapBytes, rambuffer, 10);
         ram->setValue(rambuffer);
         char uptimeStr[25]; // Buffer for string representation
-        sprintf(uptimeStr, "%ld", PeripheryManager.readUptime());
+        snprintf(uptimeStr, sizeof(uptimeStr), "%llu", PeripheryManager.readUptime());
         uptime->setValue(uptimeStr);
         transition->setState(AUTO_TRANSITION, false);
         ipAddr->setValue(ServerManager.myIP.toString().c_str());

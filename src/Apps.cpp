@@ -255,8 +255,8 @@ void TimeApp(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, int16_t x, 
     if (TIME_MODE > 0)
     {
         int offset;
-        char day_str[3];
-        sprintf(day_str, "%d", timer_localtime()->tm_mday);
+        char day_str[4];
+        snprintf(day_str, sizeof(day_str), "%d", timer_localtime()->tm_mday);
 
         // calendar box
         DisplayManager.drawFilledRect(x, y, 9, 8, CALENDAR_BODY_COLOR);

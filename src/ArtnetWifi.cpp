@@ -61,6 +61,8 @@ uint16_t ArtnetWifi::read(void)
         sequence = artnetPacket[12];
         incomingUniverse = artnetPacket[14] | artnetPacket[15] << 8;
         dmxDataLength = artnetPacket[17] | artnetPacket[16] << 8;
+        if (dmxDataLength > MAX_BUFFER_ARTNET - ART_DMX_START)
+          dmxDataLength = MAX_BUFFER_ARTNET - ART_DMX_START;
 
         if (artDmxCallback) (*artDmxCallback)(incomingUniverse, dmxDataLength, sequence, artnetPacket + ART_DMX_START);
         if (artDmxFunc) {

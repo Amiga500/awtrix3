@@ -66,7 +66,7 @@ DisplayManager_ &DisplayManager = DisplayManager.getInstance();
 
 void DisplayManager_::setBrightness(int bri)
 {
-  bool wakeup;
+  bool wakeup = false;
   if (!notifications.empty())
   {
     wakeup = notifications[0].wakeup;
