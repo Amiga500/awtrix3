@@ -217,7 +217,8 @@ void TimeApp(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, int16_t x, 
     {
         // blink separator
         char t2[20];
-        strcpy(t2, timeformat);
+        strncpy(t2, timeformat, sizeof(t2) - 1);
+        t2[sizeof(t2) - 1] = '\0';
         if (timer_time() % 2)
         {
             t2[2] = ' ';
@@ -255,8 +256,8 @@ void TimeApp(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, int16_t x, 
     if (TIME_MODE > 0)
     {
         int offset;
-        char day_str[3];
-        sprintf(day_str, "%d", timer_localtime()->tm_mday);
+        char day_str[4];
+        snprintf(day_str, sizeof(day_str), "%d", timer_localtime()->tm_mday);
 
         // calendar box
         DisplayManager.drawFilledRect(x, y, 9, 8, CALENDAR_BODY_COLOR);
@@ -739,7 +740,7 @@ void ShowCustomApp(String name, FastLED_NeoMatrix *matrix, MatrixDisplayUiState 
         DisplayManager.drawRect(x, y, 32 + x, 8 + y, 0x6e0700);
     }
 
-    if (!ca->overlay == NONE)
+    if (ca->overlay != NONE)
     {
         EffectOverlay(matrix, x, y, ca->overlay);
     }

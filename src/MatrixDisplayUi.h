@@ -106,10 +106,10 @@ private:
   int8_t nextAppNumber = -1;
 
   // Values for Overlays
-  OverlayCallback *overlayFunctions;
-  BackgroundCallback backgroundFunction;
+  OverlayCallback *overlayFunctions = nullptr;
+  BackgroundCallback backgroundFunction = nullptr;
   uint8_t overlayCount = 0;
-  int BackgroundEffect;
+  int BackgroundEffect = -1;
   // UI State
   MatrixDisplayUiState state;
 

@@ -19,7 +19,7 @@
 WiFiUDP udp;
 
 unsigned int localUdpPort = 4210;
-char incomingPacket[255];
+char incomingPacket[256];
 
 // Pufferdefinition
 #define BUFFER_SIZE 64
@@ -101,7 +101,7 @@ void addHandler()
                    {
                     if (DisplayManager.moodlight(mws.webserver->arg("plain").c_str()))
                     {
-                        mws.webserver->send(200, F(F("text/plain")), F("OK"));
+                        mws.webserver->send(200, F("text/plain"), F("OK"));
                     }
                     else
                     {
@@ -297,12 +297,12 @@ void ServerManager_::tick()
                 if (WEB_PORT != 80)
                 {
                     char buffer[128];
-                    sprintf(buffer, "%s:%d", HOSTNAME.c_str(), WEB_PORT);
-                    udp.printf(buffer);
+                    snprintf(buffer, sizeof(buffer), "%s:%d", HOSTNAME.c_str(), WEB_PORT);
+                    udp.printf("%s", buffer);
                 }
                 else
                 {
-                    udp.printf(HOSTNAME.c_str());
+                    udp.printf("%s", HOSTNAME.c_str());
                 }
 
                 udp.endPacket();

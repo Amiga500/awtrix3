@@ -199,8 +199,8 @@ void select_button_pressed_long()
     if (AP_MODE)
     {
         ++MATRIX_LAYOUT;
-        if (MATRIX_LAYOUT < 0)
-            MATRIX_LAYOUT = 2;
+        if (MATRIX_LAYOUT > 2)
+            MATRIX_LAYOUT = 0;
         saveSettings();
         ESP.restart();
     }
@@ -332,8 +332,6 @@ const char *PeripheryManager_::playFromFile(String file)
     {
         if (DEBUG_MODE)
             DEBUG_PRINTLN(F("Playing MP3 file"));
-        if (!DFPLAYER_ACTIVE)
-            return NULL;
         dfmp3.stop();
         delay(50);
         dfmp3.playMp3FolderTrack(file.toInt());

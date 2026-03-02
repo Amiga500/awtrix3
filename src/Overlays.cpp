@@ -65,7 +65,7 @@ void NotifyOverlay(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, GifPl
         notifications[0].icon.close();
         notifications.erase(notifications.begin());
 
-        if (notifications[0].wakeup && MATRIX_OFF)
+        if (!notifications.empty() && notifications[0].wakeup && MATRIX_OFF)
         {
             DisplayManager.setBrightness(0);
         }
@@ -360,7 +360,7 @@ void NotifyOverlay(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, GifPl
         notifications[0].soundPlayed = true;
     }
 
-    if (!notifications[0].overlay == NONE)
+    if (notifications[0].overlay != NONE)
     {
         EffectOverlay(matrix, 0, 0, notifications[0].overlay);
     }

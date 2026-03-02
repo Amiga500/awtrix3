@@ -328,6 +328,7 @@ void MenuManager_::leftButton()
             SOUND_VOLUME = 30;
         else
             SOUND_VOLUME--;
+        break;
     default:
         break;
     }

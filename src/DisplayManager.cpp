@@ -66,7 +66,7 @@ DisplayManager_ &DisplayManager = DisplayManager.getInstance();
 
 void DisplayManager_::setBrightness(int bri)
 {
-  bool wakeup;
+  bool wakeup = false;
   if (!notifications.empty())
   {
     wakeup = notifications[0].wakeup;
@@ -255,7 +255,7 @@ void DisplayManager_::GradientText(int16_t x, int16_t y, const char *text, int c
   for (uint16_t i = 0; i < textLength; i++)
   {
     // Bestimme den Interpolationswert basierend auf der aktuellen Position i im Text
-    float t = (float)i / (textLength - 1);
+    float t = (textLength <= 1) ? 0.0f : (float)i / (textLength - 1);
 
     // Bestimme die Farbe für das aktuelle Zeichen basierend auf dem Farbverlauf
     uint32_t TC = interpolateColor(color1, color2, t);
@@ -1278,7 +1278,7 @@ void DisplayManager_::checkNewYear()
     {
       int year = 1900 + timeInfo->tm_year;
       char message[300];
-      sprintf(message, "{'stack':false,'text':'%d','duration':20,'effect':'Fireworks','rtttl':'Auld:d=4,o=6,b=125:a5,d.,8d,d,f#,e.,8d,e,8f#,8e,d.,8d,f#,a,2b.,b,a.,8f#,f#,d,e.,8d,e,8f#,8e,d.,8b5,b5,a5,2d,16p'}", year);
+      sprintf(message, "{\"stack\":false,\"text\":\"%d\",\"duration\":20,\"effect\":\"Fireworks\",\"rtttl\":\"Auld:d=4,o=6,b=125:a5,d.,8d,d,f#,e.,8d,e,8f#,8e,d.,8d,f#,a,2b.,b,a.,8f#,f#,d,e.,8d,e,8f#,8e,d.,8b5,b5,a5,2d,16p\"}", year);
       DisplayManager.generateNotification(0, message);
       newYearEventTriggered = true;
     }
@@ -1399,7 +1399,7 @@ void DisplayManager_::selectButtonLong()
 
 void DisplayManager_::dismissNotify()
 {
-  bool wakeup;
+  bool wakeup = false;
   if (!notifications.empty())
   {
     if (notifications.size() >= 2)
@@ -1511,6 +1511,8 @@ void DisplayManager_::drawBarChart(int16_t x, int16_t y, const int data[], byte 
 
 void DisplayManager_::drawLineChart(int16_t x, int16_t y, const int data[], byte dataSize, bool withIcon, uint32_t color)
 {
+  if (dataSize < 2)
+    return;
   int availableWidth = withIcon ? (32 - 9) : 32;
   int startX = withIcon ? 9 : 0;
   float xStep = static_cast<float>(availableWidth) / static_cast<float>(dataSize - 1);
@@ -1935,7 +1937,20 @@ bool DisplayManager_::indicatorParser(uint8_t indicator, const char *json)
     }
   }
   doc.clear();
-  MQTTManager.setIndicatorState(indicator, ui->indicator1State, ui->indicator1Color);
+  switch (indicator)
+  {
+  case 1:
+    MQTTManager.setIndicatorState(indicator, ui->indicator1State, ui->indicator1Color);
+    break;
+  case 2:
+    MQTTManager.setIndicatorState(indicator, ui->indicator2State, ui->indicator2Color);
+    break;
+  case 3:
+    MQTTManager.setIndicatorState(indicator, ui->indicator3State, ui->indicator3Color);
+    break;
+  default:
+    break;
+  }
   return true;
 }
 
