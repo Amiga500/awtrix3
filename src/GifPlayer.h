@@ -502,9 +502,11 @@ public:
     int pixel, yOffset;
     for (int y = tbiImageY; y < tbiHeight + tbiImageY; y++)
     {
+      if (y >= HEIGHT) break;
       yOffset = y * WIDTH;
       for (int x = tbiImageX; x < tbiWidth + tbiImageX; x++)
       {
+        if (x >= WIDTH) break;
         pixel = imageData[yOffset + x];
         if (pixel != transparentColorIndex)
         {
