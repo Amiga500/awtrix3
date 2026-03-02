@@ -758,7 +758,11 @@ void MQTTManager_::publish(const char *topic, const char *payload)
     char result[100];
     int needed = snprintf(result, sizeof(result), "%s/%s", MQTT_PREFIX.c_str(), topic);
     if (needed < 0 || needed >= (int)sizeof(result))
+    {
+        if (DEBUG_MODE)
+            DEBUG_PRINTLN(F("MQTT topic too long, message dropped"));
         return;
+    }
 
     if (!mqtt.isConnected())
         return;
@@ -773,7 +777,11 @@ void MQTTManager_::rawPublish(const char *prefix, const char *topic, const char 
     char result[100];
     int needed = snprintf(result, sizeof(result), "%s/%s", prefix, topic);
     if (needed < 0 || needed >= (int)sizeof(result))
+    {
+        if (DEBUG_MODE)
+            DEBUG_PRINTLN(F("MQTT topic too long, message dropped"));
         return;
+    }
     mqtt.publish(result, payload, false);
 }
 
