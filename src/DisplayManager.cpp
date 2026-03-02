@@ -1278,7 +1278,7 @@ void DisplayManager_::checkNewYear()
     {
       int year = 1900 + timeInfo->tm_year;
       char message[300];
-      sprintf(message, "{'stack':false,'text':'%d','duration':20,'effect':'Fireworks','rtttl':'Auld:d=4,o=6,b=125:a5,d.,8d,d,f#,e.,8d,e,8f#,8e,d.,8d,f#,a,2b.,b,a.,8f#,f#,d,e.,8d,e,8f#,8e,d.,8b5,b5,a5,2d,16p'}", year);
+      sprintf(message, "{\"stack\":false,\"text\":\"%d\",\"duration\":20,\"effect\":\"Fireworks\",\"rtttl\":\"Auld:d=4,o=6,b=125:a5,d.,8d,d,f#,e.,8d,e,8f#,8e,d.,8d,f#,a,2b.,b,a.,8f#,f#,d,e.,8d,e,8f#,8e,d.,8b5,b5,a5,2d,16p\"}", year);
       DisplayManager.generateNotification(0, message);
       newYearEventTriggered = true;
     }
@@ -1399,7 +1399,7 @@ void DisplayManager_::selectButtonLong()
 
 void DisplayManager_::dismissNotify()
 {
-  bool wakeup;
+  bool wakeup = false;
   if (!notifications.empty())
   {
     if (notifications.size() >= 2)

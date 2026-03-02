@@ -756,9 +756,9 @@ void MQTTManager_::tick()
 void MQTTManager_::publish(const char *topic, const char *payload)
 {
     char result[100];
-    strcpy(result, MQTT_PREFIX.c_str());
-    strcat(result, "/");
-    strcat(result, topic);
+    int needed = snprintf(result, sizeof(result), "%s/%s", MQTT_PREFIX.c_str(), topic);
+    if (needed < 0 || needed >= (int)sizeof(result))
+        return;
 
     if (!mqtt.isConnected())
         return;
@@ -771,9 +771,9 @@ void MQTTManager_::rawPublish(const char *prefix, const char *topic, const char 
     if (!mqtt.isConnected())
         return;
     char result[100];
-    strcpy(result, prefix);
-    strcat(result, "/");
-    strcat(result, topic);
+    int needed = snprintf(result, sizeof(result), "%s/%s", prefix, topic);
+    if (needed < 0 || needed >= (int)sizeof(result))
+        return;
     mqtt.publish(result, payload, false);
 }
 

@@ -82,8 +82,7 @@ uint32_t getColorFromJsonVariant(JsonVariant colorVariant, uint32_t defaultColor
             uint8_t h = colorArray[1];
             uint8_t s = colorArray[2];
             uint8_t v = colorArray[3];
-            uint8_t r = 0, g = 0, b = 0;
-            return (r << 16) | (g << 8) | b; // Ignoring alpha channel
+            return hsvToRgb(h, s, v);
         }
     }
 
@@ -178,7 +177,8 @@ byte utf8ascii(byte ascii)
         if (ascii == 0x86) return 0x43;
         if (ascii == 0x99) return 0x65;
         if (ascii == 0x98) return 0x45;
-    
+        break;
+
     case 0xC5:
         // polish
         if (ascii == 0x82) return 0x6C;
@@ -191,11 +191,13 @@ byte utf8ascii(byte ascii)
         if (ascii == 0xBA) return 0x7A;
         if (ascii == 0xB9) return 0x5A;
         if (ascii == 0x9B) return 0x73;
+        break;
 
     case 0x82:
         if (ascii == 0xAC)
             // return (0xEA);
             return (0xB6);
+        break;
 
     case 0xD0:
         if (ascii == 0x81) // Ё
@@ -212,6 +214,7 @@ byte utf8ascii(byte ascii)
 
         if (ascii >= 0xB0 && ascii <= 0xBF)
             return (ascii)-49;
+        break;
 
     case 0xD1:
         if (ascii == 0x91) // Ё
@@ -225,6 +228,7 @@ byte utf8ascii(byte ascii)
 
         if (ascii >= 0x80 && ascii <= 0x8F)
             return (ascii) + 15;
+        break;
 
     case 0xD2:
         if (ascii == 0x90) // Ґ
