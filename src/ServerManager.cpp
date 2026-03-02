@@ -19,7 +19,7 @@
 WiFiUDP udp;
 
 unsigned int localUdpPort = 4210;
-char incomingPacket[255];
+char incomingPacket[256];
 
 // Pufferdefinition
 #define BUFFER_SIZE 64
