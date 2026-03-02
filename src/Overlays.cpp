@@ -65,7 +65,7 @@ void NotifyOverlay(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, GifPl
         notifications[0].icon.close();
         notifications.erase(notifications.begin());
 
-        if (notifications[0].wakeup && MATRIX_OFF)
+        if (!notifications.empty() && notifications[0].wakeup && MATRIX_OFF)
         {
             DisplayManager.setBrightness(0);
         }

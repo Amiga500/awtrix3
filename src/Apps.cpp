@@ -217,7 +217,8 @@ void TimeApp(FastLED_NeoMatrix *matrix, MatrixDisplayUiState *state, int16_t x, 
     {
         // blink separator
         char t2[20];
-        strcpy(t2, timeformat);
+        strncpy(t2, timeformat, sizeof(t2) - 1);
+        t2[sizeof(t2) - 1] = '\0';
         if (timer_time() % 2)
         {
             t2[2] = ' ';

@@ -332,8 +332,6 @@ const char *PeripheryManager_::playFromFile(String file)
     {
         if (DEBUG_MODE)
             DEBUG_PRINTLN(F("Playing MP3 file"));
-        if (!DFPLAYER_ACTIVE)
-            return NULL;
         dfmp3.stop();
         delay(50);
         dfmp3.playMp3FolderTrack(file.toInt());
