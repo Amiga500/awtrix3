@@ -740,7 +740,7 @@ void ShowCustomApp(String name, FastLED_NeoMatrix *matrix, MatrixDisplayUiState 
         DisplayManager.drawRect(x, y, 32 + x, 8 + y, 0x6e0700);
     }
 
-    if (!ca->overlay == NONE)
+    if (ca->overlay != NONE)
     {
         EffectOverlay(matrix, x, y, ca->overlay);
     }
