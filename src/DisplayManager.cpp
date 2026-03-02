@@ -1511,6 +1511,8 @@ void DisplayManager_::drawBarChart(int16_t x, int16_t y, const int data[], byte 
 
 void DisplayManager_::drawLineChart(int16_t x, int16_t y, const int data[], byte dataSize, bool withIcon, uint32_t color)
 {
+  if (dataSize < 2)
+    return;
   int availableWidth = withIcon ? (32 - 9) : 32;
   int startX = withIcon ? 9 : 0;
   float xStep = static_cast<float>(availableWidth) / static_cast<float>(dataSize - 1);
